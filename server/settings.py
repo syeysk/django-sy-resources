@@ -15,11 +15,14 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 DEBUG = env('DEBUG')
 ROOT_URLCONF = 'server.urls'
 WSGI_APPLICATION = 'server.wsgi.application'
+METRIC_SYSTEM_CODE = env.str('METRIC_SYSTEM_CODE', default='', multiline=True)
+HIDE_METRIC_FOR = env.list('HIDE_METRIC_FOR', default=list())
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR.parent / 'static'
 SITE_URL = env('SITE_URL')
 INTERNAL_IPS = ['127.0.0.1']
 
+SALT = env('SALT')
 API_SALT = env('API_SALT')
 API_SECRET_KEY = env('API_SECRET_KEY')
 
@@ -37,6 +40,8 @@ INSTALLED_APPS = [
     'django_sy_framework.linker',
     'server',
     'pages',
+    'fabric',
+    'resource',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +66,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django_sy_framework.custom_auth.context_processors.extern_auth_services',
+                'django_sy_framework.base.context_processors.settings_variables',
             ],
         },
     },
@@ -71,18 +77,26 @@ SECRET_KEY = env('SECRET_KEY')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'sqlite3.db',
+        'NAME': BASE_DIR / '.sqlite3.db',
     }
 }
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'main': {
+            'format': '{levelname} {asctime} {message}',
+            'style': '{',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        }
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'debug.log',
+            'filename': BASE_DIR / '.debug.log',
+            'formatter': 'main',
         },
     },
     'loggers': {
@@ -103,8 +117,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'API платформы',
-    'DESCRIPTION': 'Сервер предоставляет доступ к манипулированию платформой',
+    'TITLE': 'API ресурсов и фабрик',
+    'DESCRIPTION': 'Сервер предоставляет доступ к манипулированию ресурсами и фабриками',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': True,
     'SCHEMA_PATH_PREFIX_INSERT': 'api',
@@ -125,7 +139,6 @@ EXTERN_AUTH = {
 AUTH_USER_MODEL = 'custom_auth.CustomAuthUser'
 AUTHENTICATION_BACKENDS = ['django_sy_framework.custom_auth.backend.CustomAuthBackend']
 MICROSERVICES_TOKENS = {
-    'to_auth': env('MICROSERVICE_TOKEN_TO_AUTH'),
     'to_faci': env('MICROSERVICE_TOKEN_TO_FACI'),
     'to_note': env('MICROSERVICE_TOKEN_TO_NOTE'),
 }
