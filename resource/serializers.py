@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from fabric.models import Fabric
+from resource.models import Resource
 
 
 class ResourceTakeAnyToMakeSerializer(serializers.Serializer):
@@ -13,3 +14,27 @@ class ResourceTakeAnyToMakeSerializer(serializers.Serializer):
             self.fail('fabric_not_exists')
 
         return fabric
+
+
+class ResourceTakeAnyToMakeResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resource
+        fields = ['id', 'title']
+
+
+class ResourceCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resource
+        fields = ['title', 'status', 'fabric_maker']
+
+
+class ResourceCreateResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resource
+        fields = ['id']
+
+
+class ResourceGetResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resource
+        fields = ['id', 'status', 'fabric_maker']

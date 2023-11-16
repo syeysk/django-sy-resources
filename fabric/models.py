@@ -3,10 +3,10 @@ from django.db import models
 
 
 class Fabric(models.Model):
-    title = models.CharField('Название фабрики', max_length=240, unique=True)
+    title = models.CharField('Название фабрики', max_length=240)
     user = models.ForeignKey(get_user_model(), null=False, on_delete=models.CASCADE)
 
     class Meta:
         indexes = [
-            models.Index(fields=('title',), name='index_fabric'),
+            models.Index(fields=('title', 'user'), name='index_fabric'),
         ]

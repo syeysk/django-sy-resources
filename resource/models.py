@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 
@@ -17,6 +18,14 @@ class Resource(models.Model):
     fabric_maker = models.ForeignKey(
         'fabric.Fabric',
         on_delete=models.CASCADE,
+        related_name='resource_made',
+        null=True,
         verbose_name='Фабрика-изготовитель',
-        related_name='resource_made'
+    )
+    user_adder = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='resource_added',
+        null=True,
+        verbose_name='Пользователь, добавивший ресурс',
     )
