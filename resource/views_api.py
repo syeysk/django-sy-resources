@@ -121,11 +121,15 @@ class ResourceTakeAnyToMakeView(APIView):
         serializer = ResourceTakeAnyToMakeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
+        fabric = data['fabric']
+        if fabric.user != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN, data={'detail': 'You have no access to this fabric'})
+
         resource_to_make = Resource.objects.filter(status=Resource.STATUS_CHOICE_REQUIRED).first()
         if not resource_to_make:
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        resource_to_make.fabric_maker = data['fabric']
+        resource_to_make.fabric_maker = fabric
         resource_to_make.status = Resource.STATUS_CHOICE_IN_MAKING
         resource_to_make.save()
 

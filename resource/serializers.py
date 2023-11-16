@@ -37,4 +37,4 @@ class ResourceCreateResponseSerializer(serializers.ModelSerializer):
 class ResourceGetResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
-        fields = ['id', 'status', 'fabric_maker']
+        fields = ['id', 'title', 'status', 'fabric_maker']
