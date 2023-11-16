@@ -1,7 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django_sy_framework.custom_auth.authentication import TokenAuthentication
-from django_sy_framework.custom_auth.permissions import CheckIsUsernNotAnonymousUser
-from drf_spectacular.extensions import OpenApiAuthenticationExtension
+from django_sy_framework.token.views import AllowAnyMixin, LoginRequiredMixin
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from rest_framework import status
 from rest_framework.response import Response
@@ -27,20 +25,7 @@ fabric_id_parameter = OpenApiParameter(
 )
 
 
-class Auth(OpenApiAuthenticationExtension):
-    name = 'Token authentication'
-    target_class = TokenAuthentication
-
-    def get_security_definition(self, auto_schema):
-        return {
-            'type': 'http',
-            'name': 'AUTHORIZATION',
-            'in': 'header',
-            'scheme': 'Bearer',
-        }
-
-
-class FabricListView(APIView):
+class FabricListView(AllowAnyMixin, APIView):
     @extend_schema(
         parameters=[
         ],
@@ -51,10 +36,8 @@ class FabricListView(APIView):
         """Метод отдаёт список фабрик"""
 
 
-class FabricCreateView(APIView):
+class FabricCreateView(LoginRequiredMixin, APIView):
     """Класс с методом для добавления новой фабрики"""
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [CheckIsUsernNotAnonymousUser]
     # DRF_STANDARDIZED_ERRORS = {
     #     'ALLOWED_ERROR_STATUS_CODES': ["400", "403", "404", "429"]
     # }
@@ -74,10 +57,8 @@ class FabricCreateView(APIView):
         return Response(status=status.HTTP_201_CREATED, data=response_serializer.data)
 
 
-class FabricView(APIView):
+class FabricView(LoginRequiredMixin, APIView):
     """Класс методов для работы с фабрикой"""
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [CheckIsUsernNotAnonymousUser]
 
     @extend_schema(
         parameters=[

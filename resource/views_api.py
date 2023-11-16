@@ -1,7 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django_sy_framework.custom_auth.authentication import TokenAuthentication
-from django_sy_framework.custom_auth.permissions import CheckIsUsernNotAnonymousUser
-from drf_spectacular.extensions import OpenApiAuthenticationExtension
+from django_sy_framework.token.views import AllowAnyMixin, LoginRequiredMixin
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from rest_framework import status
 from rest_framework.response import Response
@@ -29,7 +27,7 @@ resource_id_parameter = OpenApiParameter(
 )
 
 
-class ResourceListView(APIView):
+class ResourceListView(AllowAnyMixin, APIView):
     @extend_schema(
         parameters=[
         ],
@@ -40,10 +38,8 @@ class ResourceListView(APIView):
         """Метод отдаёт список ресурсов"""
 
 
-class ResourceCreateView(APIView):
+class ResourceCreateView(LoginRequiredMixin, APIView):
     """Класс с методом для добавления ресурса"""
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [CheckIsUsernNotAnonymousUser]
 
     @extend_schema(
         parameters=[
@@ -62,10 +58,8 @@ class ResourceCreateView(APIView):
         return Response(status=status.HTTP_201_CREATED, data=response_serializer.data)
 
 
-class ResourceView(APIView):
+class ResourceView(LoginRequiredMixin, APIView):
     """Класс методов для работы с ресурсом"""
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [CheckIsUsernNotAnonymousUser]
 
     @extend_schema(
         parameters=[
@@ -104,10 +98,7 @@ class ResourceView(APIView):
         """Метод удаляет существующий новый ресурс"""
 
 
-class ResourceTakeAnyToMakeView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [CheckIsUsernNotAnonymousUser]
-
+class ResourceTakeAnyToMakeView(LoginRequiredMixin, APIView):
     @extend_schema(
         parameters=[
         ],
