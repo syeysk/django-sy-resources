@@ -1,5 +1,10 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.shortcuts import resolve_url
+
+from django_sy_framework.linker.models import Linker
 
 
 class Resource(models.Model):
@@ -29,3 +34,12 @@ class Resource(models.Model):
         null=True,
         verbose_name='Пользователь, добавивший ресурс',
     )
+    linker = GenericRelation(Linker, related_query_name='resource')
+
+    @property
+    def url(self):
+        return '{}{}'.format(settings.SITE_URL, resolve_url('resource', self.pk))
+
+    @property
+    def url_new(self):
+        return '{}{}'.format(settings.SITE_URL, resolve_url('resource_create'))

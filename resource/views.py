@@ -14,6 +14,17 @@ from resource.serializers import (
     ResourceCreateSerializer,
     ResourceUpdateSerializer,
 )
+from utils.constants import (
+    BEFORE_CREATE,
+    BEFORE_OPEN_CREATE_PAGE,
+    BEFORE_OPEN_VIEW_PAGE,
+    BEFORE_UPDATE,
+    CREATED,
+    UPDATED,
+    WEB,
+)
+from utils.hooks import resource_hook
+from utils.hook_meta import CreatedResource, CreatePageNote, ViewPageNote, UpdatedNote
 
 
 class ResourceListView(View):
@@ -81,7 +92,15 @@ class ResourceEditView(APIView):
         else:
             serializer = ResourceCreateSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            resource = serializer.create({**serializer.validated_data, 'user_adder': request.user})
-            response_data['pk'] = resource.pk
+            data = serializer.validated_data
+
+            meta = CreatedResource(data['title'], data['status'], None, request)
+            resource_hook(BEFORE_CREATE, WEB, meta)
+            if meta.errors:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data=meta.errors)
+
+            meta.created_resource = serializer.create({**data, 'user_adder': request.user})
+            resource_hook(CREATED, WEB, meta)
+            response_data['pk'] = meta.created_resource.pk
 
         return Response(status=status.HTTP_200_OK, data=response_data)

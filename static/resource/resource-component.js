@@ -19,6 +19,10 @@ ResourceComponent = {
     },
     methods: {
         save_resource(event, fieldComponent) {
+            let url = document.createElement('a');
+            url.href = location.href;
+            url.pathname += URL_RESOURCE;
+
             let self = this;
             let form = event.target.form;
             data = {};
@@ -26,7 +30,7 @@ ResourceComponent = {
                 data['title'] = form.title.value;
                 data['status'] = form.status.value;
                 $.ajax({
-                    url: window.location.href + URL_RESOURCE,
+                    url: url.href,
                     headers: {'X-CSRFToken': CSRF_TOKEN},
                     dataType: 'json',
                     contentType: 'application/json',
@@ -58,7 +62,7 @@ ResourceComponent = {
             } else {
                 data[fieldComponent.name] = fieldComponent.value;
                 $.ajax({
-                    url: window.location.href + URL_RESOURCE,
+                    url: url.href,
                     headers: {'X-CSRFToken': CSRF_TOKEN},
                     dataType: 'json',
                     contentType: 'application/json',

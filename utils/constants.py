@@ -1,0 +1,15 @@
+# Objects' lifecycle
+
+BEFORE_CREATE = 1
+CREATED = 2
+BEFORE_UPDATE = 3
+UPDATED = 4
+BEFORE_DELETE = 5
+DELETED = 6
+BEFORE_OPEN_CREATE_PAGE = 7
+BEFORE_OPEN_VIEW_PAGE = 8
+
+# Context of objects' lifecycle
+
+WEB = 1
+API = 2
