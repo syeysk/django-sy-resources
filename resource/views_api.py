@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django_sy_framework.token.views import AllowAnyMixin, LoginRequiredMixin
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
@@ -10,6 +11,7 @@ from resource.serializers import (
     ResourceTakeAnyToMakeSerializer,
     ResourceCreateSerializer,
     ResourceCreateResponseSerializer,
+    DefaultListSerializer,
     ResourceGetResponseSerializer,
     ResourceTakeAnyToMakeResponseSerializer,
 )
@@ -30,12 +32,25 @@ resource_id_parameter = OpenApiParameter(
 class ResourceListView(AllowAnyMixin, APIView):
     @extend_schema(
         parameters=[
+            DefaultListSerializer
         ],
         tags=['Ресурсы'],
         summary='Получить список ресурсов',
     )
     def get(self, request):
         """Метод отдаёт список ресурсов"""
+        serializer = DefaultListSerializer(data=request.GET)
+        serializer.is_valid()
+        params = serializer.validated_data
+
+        resource_queryset = Resource.objects.all()
+        paginator = Paginator(resource_queryset, params.get('c', 15))
+        page = paginator.page(params.get('p', 1))
+        response_data = []
+        for resource in page.object_list:
+            response_data.append({'pk': resource.pk, 'title': resource.title})
+
+        return Response(status=status.HTTP_200_OK, data=response_data)
 
 
 class ResourceCreateView(LoginRequiredMixin, APIView):

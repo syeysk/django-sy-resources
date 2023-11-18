@@ -1,0 +1,21 @@
+{% extends 'template.html' %}
+{% load static %}
+
+{% block title %}Ресурсы{% endblock %}
+{% block page_title %}Ресурсы{% endblock %}
+
+{% block content %}
+
+    {% for resource in resources %}
+        <div>
+					  <a href="{% url 'resource' resource.pk %}">{{ resource.title }}</a>
+  					<br>
+					  <span style="font-size: 0.8rem;">{{ resource.status }}</span>
+					  {% if resource.fabric_maker %}
+    					  <span style="font-size: 0.8rem;"> | Фабрика: {{ resource.fabric_maker.title }}</span>
+					  {% endif %}
+				</div>
+        <br>
+    {% endfor %}
+
+{% endblock %}

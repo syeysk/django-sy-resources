@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import environ
+from django_sy_framework.base.settings import *
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,18 +14,15 @@ environ.Env.read_env(env_file=BASE_DIR / '.env')
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 DEBUG = env('DEBUG')
-ROOT_URLCONF = 'server.urls'
-WSGI_APPLICATION = 'server.wsgi.application'
 METRIC_SYSTEM_CODE = env.str('METRIC_SYSTEM_CODE', default='', multiline=True)
 HIDE_METRIC_FOR = env.list('HIDE_METRIC_FOR', default=list())
-STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR.parent / 'static'
 SITE_URL = env('SITE_URL')
-INTERNAL_IPS = ['127.0.0.1']
 
 SALT = env('SALT')
 API_SALT = env('API_SALT')
 API_SECRET_KEY = env('API_SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -72,8 +70,6 @@ TEMPLATES = [
         },
     },
 ]
-
-SECRET_KEY = env('SECRET_KEY')
 
 DATABASES = {
     'default': {
@@ -127,8 +123,6 @@ SPECTACULAR_SETTINGS = {
     'SERVE_URLCONF': 'server.urls_api',
 }
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 # External auth
 
 EXTERN_AUTH = {
@@ -137,8 +131,6 @@ EXTERN_AUTH = {
         'client_secret': env('EXTERN_AUTH_GOOGLE_CLIENT_SECRET'),
     }
 }
-AUTH_USER_MODEL = 'custom_auth.CustomAuthUser'
-AUTHENTICATION_BACKENDS = ['django_sy_framework.custom_auth.backend.CustomAuthBackend']
 MICROSERVICES_TOKENS = {
     'to_faci': env('MICROSERVICE_TOKEN_TO_FACI'),
     'to_note': env('MICROSERVICE_TOKEN_TO_NOTE'),

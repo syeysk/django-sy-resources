@@ -1,0 +1,37 @@
+{% extends 'template.html' %}
+{% load static %}
+
+{% block title %}Ресурс{% endblock %}
+{% block page_title %}Ресурс{% endblock %}
+
+{% block content %}
+    {{ resource|json_script:'resource_json' }}
+    {{ statuses|json_script:'statuses_json' }}
+		<div id="app_resource_id"></div>
+{% endblock %}
+
+{% block end_of_body %}
+    {{ block.super }}
+    <script>
+        var HAS_ACCESS_TO_EDIT = {% if has_access_to_edit %}true{% else %}false{% endif %};
+			  var URL_RESOURCE = '/edit';
+		</script>
+
+    <script>
+        TeleportToHeaderComponent = {props: ['value'], template: `<teleport to="h1"><slot/></teleport>`};
+    </script>
+
+    <script src="{% static 'base/field-input-component.js' %}?v=1"></script>
+    <script src="{% static 'base/field-editor-component.js' %}?v=1"></script>
+
+    <script src="{% static 'resource/resource-component.js' %}?v=1"></script>
+    <script>
+        FieldEditorComponent.components = {FieldInputComponent, TeleportToHeaderComponent};
+
+        const { createApp } = Vue;
+
+        var app_resource = createApp(ResourceComponent);
+        app_resource.config.compilerOptions.delimiters = [ '[[', ']]' ];
+        app_resource.mount('#app_resource_id');
+    </script>
+{% endblock %}
