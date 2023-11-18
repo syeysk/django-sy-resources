@@ -6,7 +6,7 @@ from resource.models import Resource
 class ResourceCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
-        fields = ['title']
+        fields = ['title', 'status']
 
 
 class ResourceUpdateSerializer(serializers.ModelSerializer):

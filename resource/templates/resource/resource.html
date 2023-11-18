@@ -22,11 +22,12 @@
     </script>
 
     <script src="{% static 'base/field-input-component.js' %}?v=1"></script>
+    <script src="{% static 'base/field-select-component.js' %}?v=1"></script>
     <script src="{% static 'base/field-editor-component.js' %}?v=1"></script>
 
     <script src="{% static 'resource/resource-component.js' %}?v=1"></script>
     <script>
-        FieldEditorComponent.components = {FieldInputComponent, TeleportToHeaderComponent};
+        FieldEditorComponent.components = {FieldInputComponent, TeleportToHeaderComponent, FieldSelectComponent};
 
         const { createApp } = Vue;
 

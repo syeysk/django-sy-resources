@@ -4,6 +4,7 @@ ResourceComponent = {
     data() {
         $('h1')[0].textContent = '';
         let resource_object = JSON.parse(document.getElementById('resource_json').textContent);
+        let statuses = JSON.parse(document.getElementById('statuses_json').textContent);
         let isNew = !Boolean(resource_object);
         return {
             title: isNew ? '' : resource_object.title,
@@ -11,8 +12,9 @@ ResourceComponent = {
             //description: isNew ? '' : project_object.description,
             //seo_description: isNew ? '' : project_object.seo_description,
             //seo_keywords: isNew ? '' : project_object.seo_keywords,
-            isNew: isNew,
+            isNew,
             has_access_to_edit: HAS_ACCESS_TO_EDIT,
+            statuses,
         };
     },
     methods: {
@@ -20,8 +22,9 @@ ResourceComponent = {
             let self = this;
             let form = event.target.form;
             data = {};
-            data[fieldComponent.name] = fieldComponent.value;
             if (this.isNew) {
+                data['title'] = form.title.value;
+                data['status'] = form.status.value;
                 $.ajax({
                     url: window.location.href + URL_RESOURCE,
                     headers: {'X-CSRFToken': CSRF_TOKEN},
@@ -53,6 +56,7 @@ ResourceComponent = {
                     method:'post',
                 });
             } else {
+                data[fieldComponent.name] = fieldComponent.value;
                 $.ajax({
                     url: window.location.href + URL_RESOURCE,
                     headers: {'X-CSRFToken': CSRF_TOKEN},
@@ -94,6 +98,18 @@ ResourceComponent = {
 								 verbose-name="Наименование ресурса"
 								 :show-cancel-btn="!isNew"
 						>[[ title ]]</field-editor-component>
+						<br>
+						<field-editor-component
+								 name-editor-component="field-select-component"
+								 name-viewer-component="p"
+								 v-model="status"
+								 name="status"
+								 :is-edit="isNew"
+								 @save="save_resource"
+								 verbose-name="Статус ресурса"
+								 :show-cancel-btn="!isNew"
+								 :options="statuses"
+						>[[ statuses[status] ]]</field-editor-component>
 				</form>
     `,
 }
