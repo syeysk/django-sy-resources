@@ -34,7 +34,7 @@ ResourceComponent = {
                         history.pushState(
                             null,
                             null,
-                            location.href.replace('/new', '/' + result.project_id),
+                            location.href.replace('/new', '/' + result.pk),
                         );
                         fieldComponent.set_view();
                         self.isNew = false;
@@ -83,15 +83,17 @@ ResourceComponent = {
         },
     },
     template: `
-        <field-editor-component
-						 name-editor-component="field-input-component"
-						 name-viewer-component="teleport-to-header-component"
-						 v-model="title"
-						 name="title"
-						 :is-edit="isNew"
-						 @save="save_resource"
-						 verbose-name="Наименование ресурса"
-						 :show-cancel-btn="!isNew"
-				>[[ title ]]</field-editor-component>
+        <form>
+						<field-editor-component
+								 name-editor-component="field-input-component"
+								 name-viewer-component="teleport-to-header-component"
+								 v-model="title"
+								 name="title"
+								 :is-edit="isNew"
+								 @save="save_resource"
+								 verbose-name="Наименование ресурса"
+								 :show-cancel-btn="!isNew"
+						>[[ title ]]</field-editor-component>
+				</form>
     `,
 }

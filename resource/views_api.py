@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from resource.models import Resource
-from resource.serializers import (
+from resource.serializers_api import (
     ResourceTakeAnyToMakeSerializer,
     ResourceCreateSerializer,
     ResourceCreateResponseSerializer,
