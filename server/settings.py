@@ -132,8 +132,6 @@ EXTERN_AUTH = {
     }
 }
 MICROSERVICES_TOKENS = {
-    'to_faci': env('MICROSERVICE_TOKEN_TO_FACI'),
-    'to_note': env('MICROSERVICE_TOKEN_TO_NOTE'),
     'from_platform': env('MICROSERVICE_TOKEN_FROM_PLATFORM'),
 }
 MICROSERVICES_URLS = {
