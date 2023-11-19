@@ -1,1 +1,100 @@
-<svg id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 388.27 476.68"><defs><style>.cls-1{fill:#3a3a3a;}.cls-2{fill:#2e8cff;}</style></defs><path class="cls-1" d="M388.27,325.05c-15.62,22.83-56.51,76.15-129.45,107.6a283,283,0,0,1-166.16,18Q86.84,435,81,419.35l92.53-4.58a264.52,264.52,0,0,0,72-19.57c35-15.11,58.62-34.34,79.44-51.51a459,459,0,0,0,51.65-49.91Q382.46,309.41,388.27,325.05Z"/><path class="cls-1" d="M348,236c-7.31,26.13-28.54,88.39-87.56,138.82-60.38,51.6-125.84,61.36-152.25,63.79L86.66,412.07l86.59-30.35a249.65,249.65,0,0,0,62.06-38.86c28.28-24.21,44.42-49.16,58.55-71.36a426.77,426.77,0,0,0,32.61-62Z"/><path class="cls-1" d="M305.69,72.82c-2.1,36.48-10.89,124.85-59.54,212.09C196.38,374.18,133.31,411.3,107.57,424.33L81,398.13l80-71.62a356.23,356.23,0,0,0,53.94-73.44C238.25,211.21,249.35,172.93,259,139a768.92,768.92,0,0,0,20.14-92.34Z"/><rect class="cls-1" x="-80.6" y="231.39" width="292.43" height="44.66" transform="translate(-188.11 319.34) rotate(-90)"/><rect class="cls-1" x="43.28" y="41.96" width="292.43" height="44.66" transform="translate(378.99 128.59) rotate(180)"/><circle class="cls-2" cx="65.61" cy="64.29" r="64.29"/><path class="cls-2" d="M128.59,412.39V413A64.29,64.29,0,0,1,8.34,444a64.27,64.27,0,0,1,56-95.93A64.37,64.37,0,0,1,108.83,366a64.05,64.05,0,0,1,19.43,40A58.8,58.8,0,0,1,128.59,412.39Z"/><circle class="cls-2" cx="283.83" cy="64.29" r="64.29"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="Слой_1"
+   data-name="Слой 1"
+   viewBox="0 0 480.00001 480.00001"
+   version="1.1"
+   sodipodi:docname="logo.svg"
+   width="30pc"
+   height="30pc"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview334"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.42691114"
+     inkscape:cx="-228.38476"
+     inkscape:cy="31.622506"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Слой_1"
+     inkscape:document-units="pc" />
+  <defs
+     id="defs315">
+    <style
+       id="style313">.cls-1{fill:#3a3a3a;}.cls-2{fill:#2e8cff;}</style>
+  </defs>
+  <path
+     class="cls-1"
+     d="m 439.61631,326.95321 c -15.62,22.83 -56.51,76.15 -129.45,107.6 a 283,283 0 0 1 -166.16,18 q -5.82,-15.65 -11.66,-31.3 l 92.53,-4.58 a 264.52,264.52 0 0 0 72,-19.57 c 35,-15.11 58.62,-34.34 79.44,-51.51 a 459,459 0 0 0 51.65,-49.91 q 5.84,15.63 11.65,31.27 z"
+     id="path317" />
+  <path
+     class="cls-1"
+     d="m 399.34631,237.90321 c -7.31,26.13 -28.54,88.39 -87.56,138.82 -60.38,51.6 -125.84,61.36 -152.25,63.79 l -21.53,-26.54 86.59,-30.35 a 249.65,249.65 0 0 0 62.06,-38.86 c 28.28,-24.21 44.42,-49.16 58.55,-71.36 a 426.77,426.77 0 0 0 32.61,-62 z"
+     id="path319" />
+  <path
+     class="cls-1"
+     d="m 357.03631,74.723206 c -2.1,36.480004 -10.89,124.850004 -59.54,212.090004 -49.77,89.27 -112.84,126.39 -138.58,139.42 l -26.57,-26.2 80,-71.62 a 356.23,356.23 0 0 0 53.94,-73.44 c 23.31,-41.86 34.41,-80.14 44.06,-114.07 a 768.92,768.92 0 0 0 20.14,-92.340004 z"
+     id="path321" />
+  <rect
+     class="cls-1"
+     x="-401.8432"
+     y="94.626305"
+     width="292.42999"
+     height="44.66"
+     transform="rotate(-90)"
+     id="rect323" />
+  <rect
+     class="cls-1"
+     x="-387.0563"
+     y="-88.533203"
+     width="292.42999"
+     height="44.66"
+     transform="scale(-1)"
+     id="rect325" />
+  <circle
+     class="cls-2"
+     cx="116.9563"
+     cy="66.193207"
+     r="64.290001"
+     id="circle327" />
+  <path
+     class="cls-2"
+     d="m 179.93631,414.29321 v 0.61 a 64.29,64.29 0 0 1 -120.250004,31 64.27,64.27 0 0 1 56.000004,-95.93 64.37,64.37 0 0 1 44.49,17.93 64.05,64.05 0 0 1 19.43,40 58.8,58.8 0 0 1 0.33,6.39 z"
+     id="path329" />
+  <circle
+     class="cls-2"
+     cx="335.1763"
+     cy="66.193207"
+     r="64.290001"
+     id="circle331" />
+  <metadata
+     id="metadata453">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Андрей Домрачёв</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
