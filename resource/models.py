@@ -43,3 +43,22 @@ class Resource(models.Model):
     @property
     def url_new(self):
         return '{}{}'.format(settings.SITE_URL, resolve_url('resource_create'))
+
+
+class ImageResource(models.Model):
+    UPLOAD_TO = 'resource_images'
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField('Фотография ресурса', upload_to=UPLOAD_TO)
+    is_main = models.BooleanField('Является ли фотография главной', null=True)
+
+
+class ModelResource(models.Model):
+    MODEL_TYPE_GCODE = 1
+    MODEL_TYPE_PY_FREECAD = 2
+    CHOICES_MODEL_TYPE = (
+        ('G-code', MODEL_TYPE_GCODE),
+        ('Python-макрос для FreeCAD', MODEL_TYPE_PY_FREECAD),
+    )
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='models')
+    model = models.FileField('Модель ресурса', upload_to='resource_models')
+    model_type = models.IntegerField('Тип модели', choices=CHOICES_MODEL_TYPE)

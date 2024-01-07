@@ -15,6 +15,7 @@
     <script>
         var HAS_ACCESS_TO_EDIT = {% if has_access_to_edit %}true{% else %}false{% endif %};
 			  var URL_RESOURCE = '/edit';
+			  var URL_RESOURCE_IMAGES = '/images/add';
 		</script>
 
     <script>
@@ -23,11 +24,17 @@
 
     <script src="{% static 'base/field-input-component.js' %}?v=1"></script>
     <script src="{% static 'base/field-select-component.js' %}?v=1"></script>
+    <script src="{% static 'resource/field-images-component.js' %}?v=1"></script>
     <script src="{% static 'base/field-editor-component.js' %}?v=1"></script>
 
-    <script src="{% static 'resource/resource-component.js' %}?v=1"></script>
+    <script src="{% static 'resource/resource-component.js' %}?v=2"></script>
     <script>
-        FieldEditorComponent.components = {FieldInputComponent, TeleportToHeaderComponent, FieldSelectComponent};
+        FieldEditorComponent.components = {
+            FieldInputComponent,
+            TeleportToHeaderComponent,
+            FieldSelectComponent,
+            FieldImagesComponent,
+        };
 
         const { createApp } = Vue;
 

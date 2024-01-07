@@ -12,6 +12,8 @@ ResourceComponent = {
             //description: isNew ? '' : project_object.description,
             //seo_description: isNew ? '' : project_object.seo_description,
             //seo_keywords: isNew ? '' : project_object.seo_keywords,
+            images: isNew ? '' : resource_object.images,
+            models: isNew ? '' : resource_object.models,
             isNew,
             has_access_to_edit: HAS_ACCESS_TO_EDIT,
             statuses,
@@ -89,6 +91,43 @@ ResourceComponent = {
                 });
             }
         },
+        save_resource_images(event, fieldComponent) {
+            let url = document.createElement('a');
+            url.href = location.href;
+            url.pathname += URL_RESOURCE_IMAGES;
+
+            let self = this;
+            let form = event.target.form;
+						let form_data = new FormData();
+            for (let image of form.images.files) {
+                form_data.append('images', image);
+            }
+						$.ajax({
+								url: url.href,
+								headers: {'X-CSRFToken': CSRF_TOKEN},
+								contentType: false,
+								processData: false,
+								data: form_data,
+								success: function(result) {
+										clear_status_fields(form);
+										set_valid_field(form, result.updated_fields);
+										self.successMessage = '';
+										fieldComponent.set_view();
+								},
+								statusCode: {
+										500: function(xhr) {
+												clear_status_fields(form);
+												self.errorMessage = 'ошибка сохранения';
+										},
+										400: function(xhr) {
+												self.errorMessage = '';
+												clear_status_fields(form);
+												set_invalid_field(form, xhr.responseJSON);
+										},
+								},
+								method:'post',
+						});
+        },
     },
     template: `
         <form>
@@ -114,6 +153,21 @@ ResourceComponent = {
 								 :show-cancel-btn="!isNew"
 								 :options="statuses"
 						>[[ statuses[status] ]]</field-editor-component>
+				</form>
+
+				<h3>Фотографии ресурса</h3>
+
+        <form>
+						<field-editor-component
+								 name-editor-component="field-images-component"
+								 name-viewer-component="div"
+								 v-model="images"
+								 name="images"
+								 :is-edit="isNew"
+								 @save="save_resource_images"
+								 verbose-name="Фотографии ресурса"
+								 :show-cancel-btn="!isNew"
+						>[[ images ]]</field-editor-component>
 				</form>
     `,
 }

@@ -137,7 +137,7 @@ class ResourceTakeAnyToMakeView(LoginRequiredMixin, APIView):
 
         resource_to_make.fabric_maker = fabric
         resource_to_make.status = Resource.STATUS_CHOICE_IN_MAKING
-        resource_to_make.save()
+        # resource_to_make.save()
 
         response_serializer = ResourceTakeAnyToMakeResponseSerializer(instance=resource_to_make)
         return Response(status=status.HTTP_200_OK, data=response_serializer.data)

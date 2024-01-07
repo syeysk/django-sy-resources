@@ -1,4 +1,7 @@
+import os
+
 from django.conf import settings
+from django.core.files.images import ImageFile
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
@@ -6,7 +9,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
-from resource.models import Resource
+from django_sy_framework.utils.utils import make_file_hash
+
+from resource.models import Resource, ImageResource, ModelResource
 from resource.serializers_api import (
     DefaultListSerializer,
 )
@@ -60,11 +65,28 @@ class ResourceView(View):
             return render(request, 'resource/resource.html', context)
 
         resource = get_object_or_404(Resource, pk=pk)
+        images = []
+        for image in resource.images.order_by('-is_main').all():
+            images.append({
+                'pk': image.pk,
+                'is_main': image.is_main,
+                'url': image.image.url,
+            })
+
+        models = []
+        for model in resource.models.defer('model').all():
+            models.append({
+                'pk': model.pk,
+                'model_type': model.model_type,
+            })
+
         context = {
             'resource': {
                 'pk': resource.pk,
                 'title': resource.title,
                 'status': resource.status,
+                'images': images,
+                'models': models,
             },
             'statuses': statuses,
             'has_access_to_edit': request.user.is_authenticated and resource.user_adder == request.user,
@@ -104,3 +126,14 @@ class ResourceEditView(APIView):
             response_data['pk'] = meta.created_resource.pk
 
         return Response(status=status.HTTP_200_OK, data=response_data)
+
+
+class ResourceAddImagesView(APIView):
+    def post(self, request, pk):
+        resource = get_object_or_404(Resource, pk=pk)
+        for uploaded_image in request.FILES.getlist('images'):
+            image_name = make_file_hash(uploaded_image)
+            if not os.path.exists(f'{settings.MEDIA_ROOT}/{ImageResource.UPLOAD_TO}/{image_name}'):
+                resource.images.create(image=ImageFile(uploaded_image, image_name))
+
+        return Response(status=status.HTTP_200_OK, data={})
