@@ -127,6 +127,9 @@ class ResourceEditView(APIView):
 class ResourceAddImagesView(APIView):
     def post(self, request, pk):
         resource = get_object_or_404(Resource, pk=pk)
+        if request.user.pk != resource.user_adder.pk:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         serialized_valid_images = []
         for uploaded_image in request.FILES.getlist('images'):
             file_hash = make_file_hash(uploaded_image)
