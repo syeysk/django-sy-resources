@@ -17,6 +17,8 @@ from resource.serializers_api import (
 )
 from resource.serializers import (
     ResourceCreateSerializer,
+    ResourceImageSerializer,
+    ResourceModelSerializer,
     ResourceUpdateSerializer,
 )
 from utils.constants import (
@@ -44,9 +46,16 @@ class ResourceListView(View):
         resources = []
         statuses = dict(Resource.STATUS_CHOICES)
         for resource in page.object_list:
-            status = statuses[resource.status]
+            main_image = resource.images.order_by('-is_main').first()
+            resource_status = statuses[resource.status]
             resources.append(
-                {'pk': resource.pk, 'title': resource.title, 'status': status, 'fabric_maker': resource.fabric_maker},
+                {
+                    'pk': resource.pk,
+                    'title': resource.title,
+                    'status': resource_status,
+                    'fabric_maker': resource.fabric_maker,
+                    'main_image': ResourceImageSerializer(instance=main_image).data if main_image else None,
+                },
             )
 
         context = {'resources': resources}
@@ -65,28 +74,15 @@ class ResourceView(View):
             return render(request, 'resource/resource.html', context)
 
         resource = get_object_or_404(Resource, pk=pk)
-        images = []
-        for image in resource.images.order_by('-is_main').all():
-            images.append({
-                'pk': image.pk,
-                'is_main': image.is_main,
-                'url': image.image.url,
-            })
-
-        models = []
-        for model in resource.models.defer('model').all():
-            models.append({
-                'pk': model.pk,
-                'model_type': model.model_type,
-            })
-
+        image_serializer = ResourceImageSerializer(instance=resource.images.order_by('-is_main'), many=True)
+        model_serializer = ResourceModelSerializer(instance=resource.models.defer('model'), many=True)
         context = {
             'resource': {
                 'pk': resource.pk,
                 'title': resource.title,
                 'status': resource.status,
-                'images': images,
-                'models': models,
+                'images': image_serializer.data,
+                'models': model_serializer.data,
             },
             'statuses': statuses,
             'has_access_to_edit': request.user.is_authenticated and resource.user_adder == request.user,
@@ -131,9 +127,17 @@ class ResourceEditView(APIView):
 class ResourceAddImagesView(APIView):
     def post(self, request, pk):
         resource = get_object_or_404(Resource, pk=pk)
+        serialized_valid_images = []
         for uploaded_image in request.FILES.getlist('images'):
-            image_name = make_file_hash(uploaded_image)
+            file_hash = make_file_hash(uploaded_image)
+            _, ext = os.path.splitext(uploaded_image.name)
+            image_name = f'{file_hash}{ext.lower()}'
             if not os.path.exists(f'{settings.MEDIA_ROOT}/{ImageResource.UPLOAD_TO}/{image_name}'):
-                resource.images.create(image=ImageFile(uploaded_image, image_name))
+                image = resource.images.create(image=ImageFile(uploaded_image, image_name))
+                serialized_valid_images.append(ResourceImageSerializer(instance=image).data)
 
-        return Response(status=status.HTTP_200_OK, data={})
+        response_data = {
+            'saved_images': serialized_valid_images,
+            'updated_fields': ['images'] if serialized_valid_images else [],
+        }
+        return Response(status=status.HTTP_200_OK, data=response_data)

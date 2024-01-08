@@ -112,6 +112,9 @@ ResourceComponent = {
 										clear_status_fields(form);
 										set_valid_field(form, result.updated_fields);
 										self.successMessage = '';
+										if (result.saved_images) {
+    										self.images.push(...result.saved_images);
+    								}
 										fieldComponent.set_view();
 								},
 								statusCode: {
@@ -160,14 +163,14 @@ ResourceComponent = {
         <form>
 						<field-editor-component
 								 name-editor-component="field-images-component"
-								 name-viewer-component="div"
+								 name-viewer-component="view-images-component"
 								 v-model="images"
 								 name="images"
 								 :is-edit="isNew"
 								 @save="save_resource_images"
 								 verbose-name="Фотографии ресурса"
 								 :show-cancel-btn="!isNew"
-						>[[ images ]]</field-editor-component>
+						></field-editor-component>
 				</form>
     `,
 }

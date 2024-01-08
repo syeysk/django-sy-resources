@@ -10,6 +10,9 @@
         <div>
 					  <a href="{% url 'resource' resource.pk %}">{{ resource.title }}</a>
   					<br>
+					  {% if resource.main_image %}
+    					  <img style="margin-left: 10px; float: left; width: 100px;" src="{{ resource.main_image.image }}">
+					  {% endif %}
 					  <span style="font-size: 0.8rem;">{{ resource.status }}</span>
 					  {% if resource.fabric_maker %}
     					  <span style="font-size: 0.8rem;"> | Фабрика: {{ resource.fabric_maker.title }}</span>

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from resource.models import Resource
+from resource.models import Resource, ImageResource, ModelResource
 
 
 class ResourceCreateSerializer(serializers.ModelSerializer):
@@ -17,3 +17,15 @@ class ResourceUpdateSerializer(serializers.ModelSerializer):
             'title': {'required': False},
             'status': {'required': False},
         }
+
+
+class ResourceImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageResource
+        fields = ['pk', 'is_main', 'image']
+
+
+class ResourceModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModelResource
+        fields = ['pk', 'model_type']

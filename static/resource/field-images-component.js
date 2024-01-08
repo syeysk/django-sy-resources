@@ -18,9 +18,9 @@ FieldImagesComponent = {
     */
     methods: {
         set_value(event) {
-            let file_field = event.target;
+            //let file_field = event.target;
             //this.files = file_field.files;
-            this.$emit('update:modelValue', []);
+            //this.$emit('update:modelValue', []);
         },
         //get_files() {
         //    return this.files;
