@@ -126,6 +126,9 @@ class ResourceEditView(APIView):
 
 class ResourceAddImagesView(APIView):
     def post(self, request, pk):
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
         resource = get_object_or_404(Resource, pk=pk)
         if request.user.pk != resource.user_adder.pk:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -144,3 +147,38 @@ class ResourceAddImagesView(APIView):
             'updated_fields': ['images'] if serialized_valid_images else [],
         }
         return Response(status=status.HTTP_200_OK, data=response_data)
+
+
+class ResourceDeleteImageView(APIView):
+    def post(self, request, pk, pk_image):
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        resource = get_object_or_404(Resource, pk=pk)
+        if request.user.pk != resource.user_adder.pk:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        image = get_object_or_404(ImageResource, pk=pk_image, resource=resource)
+        image.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+class ResourceSetMainImageView(APIView):
+    def post(self, request, pk, pk_image):
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        resource = get_object_or_404(Resource, pk=pk)
+        if request.user.pk != resource.user_adder.pk:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        image = get_object_or_404(ImageResource, pk=pk_image, resource=resource)
+
+        main_image = resource.images.filter(is_main=True).first()
+        if main_image:
+            main_image.is_main = False
+            main_image.save()
+
+        image.is_main = True
+        image.save()
+        return Response(status=status.HTTP_200_OK)
