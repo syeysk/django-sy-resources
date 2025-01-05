@@ -26,15 +26,19 @@ class Resource(models.Model):
     UNIT_CHOICE_KG = 2
     UNIT_CHOICE_OZ_T = 3
     UNIT_CHOICE_THINGS = 4
+    UNIT_CHOICE_T = 5
+    UNIT_CHOICE_MT = 6
     UNIT_CHOICES = (
         (UNIT_CHOICE_M, 'м'),
         (UNIT_CHOICE_KG, 'кг'),
+        (UNIT_CHOICE_T, 'т'),
+        (UNIT_CHOICE_MT, 'млн т'),
         (UNIT_CHOICE_OZ_T, 'тр. унц.'),
         (UNIT_CHOICE_THINGS, 'шт.'),
     )
     title = models.CharField('Название ресурса', max_length=240)
     status = models.IntegerField('Статус', choices=STATUS_CHOICES)
-    count = models.PositiveIntegerField('Количество')
+    count = models.FloatField('Количество')
     unit = models.IntegerField('Единица измерения', choices=UNIT_CHOICES) 
     fabric_maker = models.ForeignKey(
         'fabric.Fabric',
