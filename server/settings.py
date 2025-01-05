@@ -19,6 +19,7 @@ HIDE_METRIC_FOR = env.list('HIDE_METRIC_FOR', default=list())
 STATIC_ROOT = BASE_DIR.parent / 'static'
 SITE_URL = env('SITE_URL')
 MEDIA_ROOT = BASE_DIR.parent / 'media'
+CSRF_TRUSTED_ORIGINS = [SITE_URL]
 
 SALT = env('SALT')
 API_SALT = env('API_SALT')
