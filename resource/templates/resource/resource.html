@@ -16,6 +16,7 @@
 {% block content %}
     {{ resource|json_script:'resource_json' }}
     {{ statuses|json_script:'statuses_json' }}
+    {{ units|json_script:'units_json' }}
 		<div id="app_resource_id"></div>
 {% endblock %}
 
@@ -37,7 +38,7 @@
     <script src="{% static 'resource/view-images-component.js' %}?v=2"></script>
     <script src="{% static 'base/field-editor-component.js' %}?v=1"></script>
 
-    <script src="{% static 'resource/resource-component.js' %}?v=2"></script>
+    <script src="{% static 'resource/resource-component.js' %}?v=4"></script>
     <script>
         FieldEditorComponent.components = {
             FieldInputComponent,
@@ -53,4 +54,10 @@
         app_resource.config.compilerOptions.delimiters = [ '[[', ']]' ];
         app_resource.mount('#app_resource_id');
     </script>
+
+    <style>
+    .count-unit > div {
+        display: inline-block;
+    }
+    </style>
 {% endblock %}

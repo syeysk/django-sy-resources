@@ -7,3 +7,4 @@ server/tmp/restart.txt
 .env
 .debug.log
 .idea
+venv

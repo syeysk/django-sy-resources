@@ -5,10 +5,13 @@ ResourceComponent = {
         $('h1')[0].textContent = '';
         let resource_object = JSON.parse(document.getElementById('resource_json').textContent);
         let statuses = JSON.parse(document.getElementById('statuses_json').textContent);
+        let units = JSON.parse(document.getElementById('units_json').textContent);
         let isNew = !Boolean(resource_object);
         return {
             title: isNew ? '' : resource_object.title,
             status: isNew ? '' : resource_object.status,
+            count: isNew ? '' : resource_object.count,
+            unit: isNew ? '' : resource_object.unit,
             //description: isNew ? '' : project_object.description,
             //seo_description: isNew ? '' : project_object.seo_description,
             //seo_keywords: isNew ? '' : project_object.seo_keywords,
@@ -17,6 +20,7 @@ ResourceComponent = {
             isNew,
             has_access_to_edit: HAS_ACCESS_TO_EDIT,
             statuses,
+            units,
         };
     },
     methods: {
@@ -31,6 +35,8 @@ ResourceComponent = {
             if (this.isNew) {
                 data['title'] = form.title.value;
                 data['status'] = form.status.value;
+                data['count'] = form.count.value;
+                data['unit'] = form.unit.value;
                 $.ajax({
                     url: url.href,
                     headers: {'X-CSRFToken': CSRF_TOKEN},
@@ -156,6 +162,32 @@ ResourceComponent = {
 								 :show-cancel-btn="!isNew"
 								 :options="statuses"
 						>[[ statuses[status] ]]</field-editor-component>
+                        <br>
+                        <div class="count-unit">
+                            <field-editor-component
+                                    name-editor-component="field-input-component"
+                                    name-viewer-component="span"
+                                    v-model="count"
+                                    name="count"
+                                    type="number"
+                                    :is-edit="isNew"
+                                    @save="save_resource"
+                                    verbose-name="Количество"
+                                    :show-cancel-btn="!isNew"
+                            >[[ count ]]</field-editor-component>
+                            <field-editor-component
+                                    name-editor-component="field-select-component"
+                                    name-viewer-component="span"
+                                    v-model="unit"
+                                    name="unit"
+                                    :is-edit="isNew"
+                                    @save="save_resource"
+                                    verbose-name="Единица измерения"
+                                    :show-cancel-btn="!isNew"
+                                    :options="units"
+                            >[[ units[unit] ]]</field-editor-component>
+                        </div>
+
 				</form>
 
 				<h3>Фотографии ресурса</h3>

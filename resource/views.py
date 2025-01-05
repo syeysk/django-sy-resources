@@ -66,11 +66,12 @@ class ResourceView(View):
     def get(self, request, pk=None):
         """Метод отдаёт ресурс"""
         statuses = dict(Resource.STATUS_CHOICES)
+        units = dict(Resource.UNIT_CHOICES)
         if not pk:
             if not request.user.is_authenticated:
                 return redirect(settings.LOGIN_URL)
 
-            context = {'resource': None, 'statuses': statuses, 'has_access_to_edit': True}
+            context = {'resource': None, 'statuses': statuses, 'units': units, 'has_access_to_edit': True}
             return render(request, 'resource/resource.html', context)
 
         resource = get_object_or_404(Resource, pk=pk)
@@ -81,10 +82,13 @@ class ResourceView(View):
                 'pk': resource.pk,
                 'title': resource.title,
                 'status': resource.status,
+                'count': resource.count,
+                'unit': resource.unit,
                 'images': image_serializer.data,
                 'models': model_serializer.data,
             },
             'statuses': statuses,
+            'units': units,
             'has_access_to_edit': request.user.is_authenticated and resource.user_adder == request.user,
         }
         return render(request, 'resource/resource.html', context)

@@ -6,16 +6,18 @@ from resource.models import Resource, ImageResource, ModelResource
 class ResourceCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
-        fields = ['title', 'status']
+        fields = ['title', 'status', 'count', 'unit']
 
 
 class ResourceUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
-        fields = ['title', 'status']
+        fields = ['title', 'status', 'count', 'unit']
         extra_kwargs = {
             'title': {'required': False},
             'status': {'required': False},
+            'count': {'required': False},
+            'unit': {'required': False},
         }
 
 

@@ -12,14 +12,30 @@ class Resource(models.Model):
     STATUS_CHOICE_REQUIRED = 2
     STATUS_CHOICE_EXISTED = 3
     STATUS_CHOICE_IN_MAKING = 4
+    STATUS_CHOICE_TO_ORDER = 5
+    STATUS_CHOICE_PROVEN = 6
     STATUS_CHOICES = (
         (STATUS_CHOICE_OTHER, 'Другое'),
         (STATUS_CHOICE_REQUIRED, 'Запрашиваемый'),
         (STATUS_CHOICE_EXISTED, 'Наличный'),
         (STATUS_CHOICE_IN_MAKING, 'В процессе изготовления'),
+        (STATUS_CHOICE_TO_ORDER, 'Под заказ'),
+        (STATUS_CHOICE_PROVEN, 'Разведанный'),
+    )
+    UNIT_CHOICE_M = 1
+    UNIT_CHOICE_KG = 2
+    UNIT_CHOICE_OZ_T = 3
+    UNIT_CHOICE_THINGS = 4
+    UNIT_CHOICES = (
+        (UNIT_CHOICE_M, 'м'),
+        (UNIT_CHOICE_KG, 'кг'),
+        (UNIT_CHOICE_OZ_T, 'тр. унц.'),
+        (UNIT_CHOICE_THINGS, 'шт.'),
     )
     title = models.CharField('Название ресурса', max_length=240)
-    status = models.IntegerField(choices=STATUS_CHOICES)
+    status = models.IntegerField('Статус', choices=STATUS_CHOICES)
+    count = models.PositiveIntegerField('Количество')
+    unit = models.IntegerField('Единица измерения', choices=UNIT_CHOICES) 
     fabric_maker = models.ForeignKey(
         'fabric.Fabric',
         on_delete=models.CASCADE,
