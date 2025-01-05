@@ -4,7 +4,7 @@
 {% block title %}{{ resource.title }}{% endblock %}
 {% block page_title %}{{ resource.title }}{% endblock %}
 
-{% block head %}
+{% block start_of_head %}
     {{ block.super }}
     {% if debug %}
         <script src="{% static 'base/extern/vue.3.js' %}"></script>
