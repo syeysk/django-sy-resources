@@ -1,0 +1,17 @@
+# docker-compose.yml
+version: '3'
+
+services:
+
+  sy-notes:
+    build: .
+    command: >
+       bash -c "python3 manage.py migrate
+       && python3 manage.py collectstatic --noinput
+       && python3 manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8007:8000"
+    volumes:
+      - .:/app
+      - /usr/share/nginx/html/django-sy-resources/static:/static
+      - /usr/share/nginx/html/django-sy-resources/media:/media

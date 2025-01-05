@@ -6,3 +6,4 @@ passenger_wsgi.py
 server/tmp/restart.txt
 .env
 .debug.log
+.idea
